@@ -19,6 +19,23 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/*
+* TokenProvider 빈은 application.properties에서 정의한
+* jwt.secret, jwt.token-validity-in-seconds 값을 주입받도록 함
+
+InitializingBean을 구현하고 afterPropertiesSet()을 오버라이드한 이유는
+* 빈이 생성되고 의존성 주입까지 끝낸 이후에 주입받은 secret 값을 base64 decode하여 key 변수에 할당하기 위함
+*
+* createToken 메소드는 Authentication 객체에 포함되어 있는 권한 정보들을 담은 토큰을 생성하고
+
+jwt.token-validity-in-seconds 값을 이용해 토큰의 만료 시간을 지정함
+
+getAuthentication 메소드는 토큰에 담겨있는 권한 정보들을 이용해 Authentication 객체를 리턴함
+
+validateToken 메소드는 토큰을 검증하는 역할을 수행합니다.
+
+
+* */
 @Component
 public class TokenProvider implements InitializingBean {
 

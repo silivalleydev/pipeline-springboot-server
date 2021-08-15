@@ -14,6 +14,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/*
+*
+* JWT를 위한 Custom Filter를 만들기 위해 GenericFilterBean을 extends한 JwtFilter.java를 생성
+
+JwtFilter빈은 TokenProvider를 주입
+
+실제 필터링 로직은 doFilter 메소드를 오버라이드하여 작성
+
+resolveToken 메소드는 HttpServletRequest 객체의 Header에서 token을 꺼내는 역할을 수행
+
+doFilter 메소드는 jwt 토큰의 인증 정보를 현재 실행중인 스레드 ( Security Context ) 에 저장
+
+*/
 public class JwtFilter extends GenericFilterBean {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);

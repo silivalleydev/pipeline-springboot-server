@@ -49,24 +49,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // token 방식을 사용하므로 csrf 설정을 disable
                 .csrf().disable()
 
+                // 예외처리를 위해 만들었던 코드를 지정
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
+                // 데이터 확인을 위해 사용하고 있는 h2-console을 위한 설정을 추가
                 .and()
                 .headers()
                 .frameOptions()
                 .sameOrigin()
 
+                //세션을 사용하지 않기 때문에 세션 설정을 STATELESS로 지정
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
+                // /helloworld/** , API는 Token이 없어도 호출할 수 있도록 허용
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/helloworld/**").permitAll()
+                .antMatchers("/auth/signin").permitAll()
+                .antMatchers("/auth/signup").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
