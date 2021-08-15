@@ -16,9 +16,6 @@ public class TestController {
         return "Hello world";
     }
 
-//    public Hello helloWorldJson () {
-//
-//    }
     @GetMapping(value = "/page")
     public String helloWordPage () {
         return "index.html";
