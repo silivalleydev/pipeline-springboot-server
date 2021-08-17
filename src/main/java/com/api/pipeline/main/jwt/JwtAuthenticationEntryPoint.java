@@ -1,4 +1,4 @@
-package com.api.pipeline.jwt;
+package com.api.pipeline.main.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

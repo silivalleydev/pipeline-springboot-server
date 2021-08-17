@@ -1,4 +1,4 @@
-package com.api.pipeline.jwt;
+package com.api.pipeline.main.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

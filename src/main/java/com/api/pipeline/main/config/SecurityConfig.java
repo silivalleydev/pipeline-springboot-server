@@ -1,9 +1,9 @@
-package com.api.pipeline.config;
+package com.api.pipeline.main.config;
 
-import com.api.pipeline.jwt.JwtAccessDeniedHandler;
-import com.api.pipeline.jwt.JwtAuthenticationEntryPoint;
-import com.api.pipeline.jwt.JwtSecurityConfig;
-import com.api.pipeline.jwt.TokenProvider;
+import com.api.pipeline.main.jwt.JwtAccessDeniedHandler;
+import com.api.pipeline.main.jwt.JwtAuthenticationEntryPoint;
+import com.api.pipeline.main.jwt.JwtSecurityConfig;
+import com.api.pipeline.main.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -71,6 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // /helloworld/** , API는 Token이 없어도 호출할 수 있도록 허용
                 .and()
                 .authorizeRequests()
+                .antMatchers("/main").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/helloworld/**").permitAll()
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/auth/signup").permitAll()

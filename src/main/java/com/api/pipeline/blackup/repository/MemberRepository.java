@@ -1,5 +1,6 @@
-package com.api.pipeline.member;
+package com.api.pipeline.blackup.repository;
 
+import com.api.pipeline.blackup.entity.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.api.pipeline.jwt;
+package com.api.pipeline.main.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

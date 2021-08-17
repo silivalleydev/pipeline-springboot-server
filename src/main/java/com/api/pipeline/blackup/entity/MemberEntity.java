@@ -1,4 +1,4 @@
-package com.api.pipeline.member;
+package com.api.pipeline.blackup.entity;
 
 import lombok.Getter;
 

@@ -1,5 +1,7 @@
-package com.api.pipeline.member;
+package com.api.pipeline.blackup.service;
 
+import com.api.pipeline.blackup.entity.MemberEntity;
+import com.api.pipeline.blackup.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
