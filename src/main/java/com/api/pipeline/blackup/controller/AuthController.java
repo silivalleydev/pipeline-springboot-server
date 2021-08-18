@@ -12,9 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,23 +35,24 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<TokenDto> authorize(@RequestBody LoginDto loginDto) {
-        System.out.println("login===>>" + loginDto.getId());
+        System.out.println("login===>>" + loginDto.getId() + loginDto.getPassword());
+        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+
+        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getId(), loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginDto.getId(), loginDto.getPassword(), roles);
         System.out.println("login Success===>>" + authenticationToken);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         System.out.println("authentication===>>" + authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        String access_token = tokenProvider.createToken(authentication);
 
-        System.out.println("jwt===>>" + jwt);
-
+        String refresh_token = tokenProvider.createRefreshToken(authentication);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        System.out.println("login Success===>>" + httpHeaders + jwt.isEmpty());
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + access_token);
+        return new ResponseEntity<>(new TokenDto(access_token, refresh_token), httpHeaders, HttpStatus.OK);
     }
 }
