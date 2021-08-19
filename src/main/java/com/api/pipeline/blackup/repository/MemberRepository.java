@@ -11,6 +11,5 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
     Optional<MemberEntity> findById(String id);
 
-    @EntityGraph(attributePaths = "authorities")
     Optional<MemberEntity> findOneWithAuthoritiesById(String id);
 }

@@ -2,9 +2,11 @@ package com.api.pipeline.blackup.service;
 
 import com.api.pipeline.blackup.entity.MemberEntity;
 import com.api.pipeline.blackup.repository.MemberRepository;
+import com.api.pipeline.main.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,16 @@ public class MemberService {
             return false;
         }
 
+    }
+
+    @Transactional
+    public Optional<MemberEntity> getUserWithAuthorities(String id) {
+        return memberRepository.findOneWithAuthoritiesById(id);
+    }
+
+    @Transactional
+    public Optional<MemberEntity> getMyUserWithAuthorities() {
+        return SecurityUtil.getCurrentUsername().flatMap(memberRepository::findOneWithAuthoritiesById);
     }
 
     public Optional<MemberEntity> getMember(Integer mem_id){

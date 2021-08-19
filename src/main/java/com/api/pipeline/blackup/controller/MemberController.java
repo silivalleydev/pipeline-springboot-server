@@ -5,6 +5,7 @@ import com.api.pipeline.blackup.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -16,16 +17,24 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/{mem_id}")
-    public ResponseEntity<MemberEntity> memberInfo(@PathVariable Integer mem_id) {
-        Optional<MemberEntity> member = memberService.getMember(mem_id);
-        if(member.isPresent()){	//exist
-            return new ResponseEntity<MemberEntity>(member.get(), HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<MemberEntity>(HttpStatus.NOT_FOUND);
-        }
+//    @PreAuthorize("hasAnyRole('ROLE_USER','USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/info")
+    public ResponseEntity<MemberEntity> getMyUserInfo() {
+        return ResponseEntity.ok(memberService.getMyUserWithAuthorities().get());
     }
+
+
+//    @GetMapping("/{mem_id}")
+//    public ResponseEntity<MemberEntity> memberInfo(@PathVariable Integer mem_id) {
+//        Optional<MemberEntity> member = memberService.getMember(mem_id);
+//        if(member.isPresent()){	//exist
+//            return new ResponseEntity<MemberEntity>(member.get(), HttpStatus.OK);
+//        }
+//        else{
+//            return new ResponseEntity<MemberEntity>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
 
     @DeleteMapping("/{mem_id}")
