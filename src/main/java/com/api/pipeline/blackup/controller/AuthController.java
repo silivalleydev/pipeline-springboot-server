@@ -1,5 +1,6 @@
 package com.api.pipeline.blackup.controller;
 import com.api.pipeline.blackup.dto.LoginDto;
+import com.api.pipeline.blackup.dto.MemberDto;
 import com.api.pipeline.blackup.entity.MemberEntity;
 import com.api.pipeline.blackup.service.MemberService;
 import com.api.pipeline.main.dto.TokenDto;
@@ -27,9 +28,17 @@ public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
+    @Autowired
+    private MemberService memberService;
+
     public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<MemberEntity> signup(@RequestBody MemberDto memberDto) {
+        return ResponseEntity.ok(memberService.signup(memberDto));
     }
 
     @PostMapping("/authenticate")
