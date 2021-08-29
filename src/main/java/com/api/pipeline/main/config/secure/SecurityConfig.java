@@ -1,4 +1,4 @@
-package com.api.pipeline.main.config;
+package com.api.pipeline.main.config.secure;
 
 import com.api.pipeline.main.jwt.JwtAccessDeniedHandler;
 import com.api.pipeline.main.jwt.JwtAuthenticationEntryPoint;
