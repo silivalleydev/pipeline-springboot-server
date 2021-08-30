@@ -5,6 +5,7 @@ import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -47,4 +48,10 @@ public class User {
     private Date updateDate;
 
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")})
+    private Set<UserAuthority> userAuthorities;
 }
