@@ -1,8 +1,12 @@
 package com.api.pipeline.erp.repository;
 
 import com.api.pipeline.erp.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
+public interface UserRepository extends JpaRepository<User, Long> {
+    @EntityGraph(attributePaths = "authorities")
+    Optional<User> findAllByUserId(String userId);
 }
