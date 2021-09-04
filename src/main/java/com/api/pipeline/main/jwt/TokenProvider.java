@@ -40,7 +40,7 @@ validateToken 메소드는 토큰을 검증하는 역할을 수행합니다.
 public class TokenProvider implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-
+    private final int DEFAULT_DAY = 1;
     private static final String AUTHORITIES_KEY = "auth";
 
     private final String secret;
@@ -62,14 +62,18 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Authentication authentication) {
+    public String createToken(Authentication authentication, int day) {
+
         System.out.println("토큰??" + authentication);
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
+        if (day == 0) {
+            day = DEFAULT_DAY;
+        }
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        Date validity = new Date(now + this.tokenValidityInMilliseconds * day);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
@@ -85,7 +89,7 @@ public class TokenProvider implements InitializingBean {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds * 30);
+        Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
