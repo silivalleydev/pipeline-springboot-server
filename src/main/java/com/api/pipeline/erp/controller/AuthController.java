@@ -19,29 +19,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RestController
+@RestController(value = "erp.authController")
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-//    @Autowired
-//    private MemberService memberService;
-
     public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody SignInDto signInDto) {
+    @PostMapping("/sign/in")
+    public ResponseEntity<TokenDto> signIn(@Valid @RequestBody SignInDto signInDto) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(signInDto.getUserId(), signInDto.getPassword());
 
+        System.out.println("id=>" + signInDto.getUserId() + ", password=>" + signInDto.getPassword());
+        System.out.println("auth=>" + authenticationToken);
+
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
 
         String accessToken = tokenProvider.createToken(authentication, 1);
         String refreshToken = tokenProvider.createToken(authentication, 30);

@@ -17,43 +17,43 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
-@EnableTransactionManagement
-@EnableJpaRepositories(
-        entityManagerFactoryRef = "testEntityManagerFactory",
-        transactionManagerRef = "testTransactionManager",
-        basePackages = { "com.api.pipeline.blackup" }
-)
+//@Configuration
+//@EnableTransactionManagement
+//@EnableJpaRepositories(
+//        entityManagerFactoryRef = "testEntityManagerFactory",
+//        transactionManagerRef = "testTransactionManager",
+//        basePackages = { "com.api.pipeline.blackup" }
+//)
 public class TestDataSourceConfig {
-
-    @Primary
-    @Bean
-    @ConfigurationProperties("test.datasource")
-    public DataSourceProperties testDataSourceProperties() {
-        return new DataSourceProperties();
-    }
-
-    @Primary
-    @Bean
-    @ConfigurationProperties("test.datasource.configuration")
-    public DataSource testDataSource(@Qualifier("testDataSourceProperties") DataSourceProperties dataSourceProperties) {
-        return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
-    }
-
-    @Primary
-    @Bean
-    public LocalContainerEntityManagerFactoryBean testEntityManagerFactory(EntityManagerFactoryBuilder builder,
-                                                                              @Qualifier("testDataSource") DataSource dataSource) {
-        return builder
-                .dataSource(dataSource)
-                .packages("com.api.pipeline.blackup")
-                .persistenceUnit("primaryEntityManager")
-                .build();
-    }
-
-    @Primary
-    @Bean
-    public PlatformTransactionManager testTransactionManager(@Qualifier("testEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager(entityManagerFactory);
-    }
+//
+//    @Primary
+//    @Bean
+//    @ConfigurationProperties("test.datasource")
+//    public DataSourceProperties testDataSourceProperties() {
+//        return new DataSourceProperties();
+//    }
+//
+//    @Primary
+//    @Bean
+//    @ConfigurationProperties("test.datasource.configuration")
+//    public DataSource testDataSource(@Qualifier("testDataSourceProperties") DataSourceProperties dataSourceProperties) {
+//        return dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
+//    }
+//
+//    @Primary
+//    @Bean(name="entityManagerFactory")
+//    public LocalContainerEntityManagerFactoryBean testEntityManagerFactory(EntityManagerFactoryBuilder builder,
+//                                                                              @Qualifier("testDataSource") DataSource dataSource) {
+//        return builder
+//                .dataSource(dataSource)
+//                .packages("com.api.pipeline.blackup")
+//                .persistenceUnit("primaryEntityManager")
+//                .build();
+//    }
+//
+//    @Primary
+//    @Bean
+//    public PlatformTransactionManager testTransactionManager(@Qualifier("testEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+//        return new JpaTransactionManager(entityManagerFactory);
+//    }
 }

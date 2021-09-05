@@ -47,11 +47,7 @@ public class User {
     @Column(name = "update_date")
     private Date updateDate;
 
-
-    @ManyToMany
-    @JoinTable(
-            name = "authority",
-            joinColumns = {@JoinColumn(name = "auth_id", referencedColumnName = "auth_id")},
-            inverseJoinColumns = {@JoinColumn(name = "auth_id", referencedColumnName = "auth_id")})
-    private Set<Authority> authorities;
+    @OneToOne
+    @JoinColumn(name="author_id")
+    private Authority authority;
 }

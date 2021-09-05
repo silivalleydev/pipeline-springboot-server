@@ -41,7 +41,7 @@ public class ErpDataSourceConfig {
     }
 
     @Primary
-    @Bean
+    @Bean(name="erpEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean erpEntityManagerFactory(EntityManagerFactoryBuilder builder,
                                                                               @Qualifier("erpDataSource") DataSource dataSource) {
         return builder

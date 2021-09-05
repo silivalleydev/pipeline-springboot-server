@@ -1,17 +1,17 @@
-package com.api.pipeline.blackup.dto;
-
-import com.sun.istack.NotNull;
+package com.api.pipeline.erp.dto;
 import lombok.*;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDto {
+public class SignInDto {
 
     @NotNull
-    private String id;
+    private String userId;
 
     @NotNull
     private String password;
