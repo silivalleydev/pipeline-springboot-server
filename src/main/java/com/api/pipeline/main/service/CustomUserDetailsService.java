@@ -32,7 +32,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createUser(String userId, User user) {
-        System.out.println("????????????1111" + user.getAuthority().getAuthorCode());
         if (user.getUserId().isEmpty()) {
             throw new RuntimeException(userId + " -> 활성화되어 있지 않습니다.");
         }
