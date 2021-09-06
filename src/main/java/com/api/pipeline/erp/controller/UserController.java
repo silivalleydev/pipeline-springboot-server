@@ -3,6 +3,7 @@ package com.api.pipeline.erp.controller;
 import com.api.pipeline.erp.dto.SignInDto;
 import com.api.pipeline.erp.dto.TokenDto;
 import com.api.pipeline.erp.dto.UserDto;
+import com.api.pipeline.erp.dto.UserResponseDto;
 import com.api.pipeline.erp.entity.User;
 import com.api.pipeline.erp.service.UserService;
 import com.api.pipeline.main.jwt.JwtFilter;
@@ -72,11 +73,19 @@ public class UserController {
 
     @GetMapping("/myinfo")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public ResponseEntity<User> getMyUserInfo() {
+    public ResponseEntity<UserResponseDto> getMyUserInfo() {
 
         User rsUser = userService.getMyUserWithAuthorities().get();
+        System.out.println(rsUser.getUserId());
+        UserResponseDto responseUser = new UserResponseDto();
 
-        return ResponseEntity.ok(rsUser);
+        responseUser.setName(rsUser.getName());
+        responseUser.setCompany(rsUser.getCompany());
+        responseUser.setDepartment(rsUser.getDepartment());
+        responseUser.setEmail(rsUser.getEmail());
+        responseUser.setPhone(rsUser.getPhone());
+
+        return ResponseEntity.ok(responseUser);
     }
 
     @GetMapping("/user/{username}")

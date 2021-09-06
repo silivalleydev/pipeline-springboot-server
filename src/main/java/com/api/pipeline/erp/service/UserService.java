@@ -35,6 +35,7 @@ public class UserService {
         User user = User.builder()
                 .userId(userDto.getUserId())
                 .password(passwordEncoder.encode(userDto.getPassword()))
+                .name(userDto.getName())
                 .email(userDto.getEmail())
                 .phone(userDto.getPhone())
                 .company(userDto.getCompany())
